@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
 // Import api
 import alchemy from "../apis/alchemyapi";
@@ -11,41 +11,38 @@ import { fromHex } from "alchemy-sdk";
 
 export default function Header() {
   const [inputValue, setInputValue] = useState("");
+  const [buttonState, setButtonState] = useState("Next");
+  const [placeholderState, setPlaceholderState] = useState("Collection Contact Address");
+  const [contractAddress, setContractAddress] = useState("");
 
   const handleChange = (e) => {
     // Step 3: Update state when input value changes
     setInputValue(e.target.value);
+    
   };
 
   async function handleClick() {
-    // Get inputted address
-  
-    console.log(inputValue);
-    setInputValue("");
-  
-  
-  
-    // // Contract address ( Will need to set this to user inputted address)
-    // const address = ["0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"];
-    // // Get all NFTs
-    // const response = await alchemy.core.getAssetTransfers({
-    //   fromBlock: "0x0",
-    //   contractAddresses: address,
-    //   category: ["erc721"],
-    //   excludeZeroValue: false,
-    // });
-    
-  
-  
-    // // Will need to set this NFT ID to the one that is inputted
-    // const nftId = 3;
-  
-    // // Get transactions for the NFT
-    // let txns = response.transfers.filter(
-    //   (txn) => fromHex(txn.erc721TokenId) === nftId
-    // );
-    // // Eventually instead of console logging we will show the transactions on the page
-    // console.log(txns);
+    if (buttonState === "Next") {
+      // Collect the contract address
+      setContractAddress(inputValue);
+      setInputValue(""); // Clear any previous input
+      setButtonState("Search");
+      setPlaceholderState("NFT ID Number");
+    } else if (buttonState === "Search") {
+      // Stage 2: Collect NFT ID Number
+      const nftId = inputValue; 
+
+      
+      console.log("Collection Contact Address stage 2:", contractAddress);
+      console.log("NFT ID Number:", nftId);
+
+      
+
+      // Reset the states
+      setInputValue(""); // Clear the input
+      setButtonState("Next");
+      setPlaceholderState("Collection Contact Address");
+    }
   }
 
   return (
@@ -59,7 +56,7 @@ export default function Header() {
       </p>
       <InputGroup size="md">
         <Input
-          placeholder="Collection Contact Address"
+          placeholder={placeholderState}
           pr="4.5rem"
           size="lg"
           variant="Filled"
@@ -76,7 +73,7 @@ export default function Header() {
           marginRight="0.5rem"
         >
           <Button h="1.75rem" size="sm" onClick={handleClick}>
-            Next
+            {buttonState}
           </Button>
         </InputRightElement>
       </InputGroup>
