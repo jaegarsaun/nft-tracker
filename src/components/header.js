@@ -1,7 +1,16 @@
 import React from "react";
 import "../App.css";
 import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
+// Import api
+import alchemy from "../apis/alchemyapi";
+// Import API tools
 
+
+
+function handleClick() {
+  const nfts = alchemy.nft.getNftsForOwner("vitalik.eth");
+  console.log(nfts);
+}
 export default function Header() {
   return (
     <div className="header">
@@ -21,7 +30,7 @@ export default function Header() {
           focusBackgroundColor="red"
         />
         <InputRightElement width="4.5rem" height="100%" display="flex" justifyContent="center" alignItems="center" marginRight="0.5rem">
-          <Button h="1.75rem" size="sm">
+          <Button h="1.75rem" size="sm" onClick={handleClick()}>
             Search
           </Button>
         </InputRightElement>
