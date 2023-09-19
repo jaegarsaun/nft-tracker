@@ -7,18 +7,17 @@ import alchemy from "../apis/alchemyapi";
 // Import API tools
 import { fromHex } from "alchemy-sdk";
 
-
-
 export default function Header() {
   const [inputValue, setInputValue] = useState("");
   const [buttonState, setButtonState] = useState("Next");
-  const [placeholderState, setPlaceholderState] = useState("Collection Contact Address");
+  const [placeholderState, setPlaceholderState] = useState(
+    "Collection Contact Address"
+  );
   const [contractAddress, setContractAddress] = useState("");
 
   const handleChange = (e) => {
     // Step 3: Update state when input value changes
     setInputValue(e.target.value);
-    
   };
 
   async function handleClick() {
@@ -29,14 +28,29 @@ export default function Header() {
       setButtonState("Search");
       setPlaceholderState("NFT ID Number");
     } else if (buttonState === "Search") {
-      // Stage 2: Collect NFT ID Number
-      const nftId = inputValue; 
+      // Collect the NFT ID number
+      const nftId = parseInt(inputValue);
 
-      
       console.log("Collection Contact Address stage 2:", contractAddress);
       console.log("NFT ID Number:", nftId);
 
-      
+      // Contract address
+
+      let address = [contractAddress];
+
+      // Get all NFTs
+      const response = await alchemy.core.getAssetTransfers({
+        fromBlock: "0x0",
+        contractAddresses: address,
+        category: ["erc721"],
+        excludeZeroValue: false,
+      });
+
+      // Get transactions for the NFT
+      let txns = response.transfers.filter(
+        (txn) => fromHex(txn.erc721TokenId) === nftId
+      );
+      console.log(txns);
 
       // Reset the states
       setInputValue(""); // Clear the input
@@ -61,8 +75,8 @@ export default function Header() {
           size="lg"
           variant="Filled"
           focusBackgroundColor="red"
-          value={inputValue} 
-          onChange={handleChange} 
+          value={inputValue}
+          onChange={handleChange}
         />
         <InputRightElement
           width="4.5rem"
