@@ -22,12 +22,24 @@ export default function Header() {
 
   async function handleClick() {
     if (buttonState === "Next") {
+      // Input validation
+      const ethereumAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/; //Etherium address regex
+      if(!ethereumAddressRegex.test(inputValue)) {
+        alert("Invalid address");
+        return;
+      }
       // Collect the contract address
       setContractAddress(inputValue);
       setInputValue(""); // Clear any previous input
       setButtonState("Search");
       setPlaceholderState("NFT ID Number");
     } else if (buttonState === "Search") {
+      // Input validation
+      const nftIdRegex = /^[0-9]+$/; //NFT ID regex
+      if(!nftIdRegex.test(inputValue)) {
+        alert("Invalid NFT ID");
+        return;
+      }
       // Collect the NFT ID number
       const nftId = parseInt(inputValue);
 
