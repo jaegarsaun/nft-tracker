@@ -72,13 +72,43 @@ export default function Header() {
         contractAddresses: address,
         category: ["erc721"],
         excludeZeroValue: false,
+      }).catch((err) => {
+        console.log(err);
+        toast({
+          title: 'Something went wrong',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
       });
 
       // Get transactions for the NFT
-      let txns = response.transfers.filter(
-        (txn) => fromHex(txn.erc721TokenId) === nftId
-      );
-      console.log(txns);
+      if (response && response.transfers && Array.isArray(response.transfers)) {
+        // Get transactions for the NFT
+        let txns = response.transfers.filter(
+          (txn) => fromHex(txn.erc721TokenId) === nftId
+        );
+        if(txns.length === 0) {
+          toast({
+            title: 'No transactions found',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+          return;
+        }
+        console.log(txns);
+      } else {
+        console.error('Invalid or missing response data.');
+        toast({
+          title: 'Something went wrong',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+
+      }
+      
 
       // Reset the states
       setInputValue(""); // Clear the input
