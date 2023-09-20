@@ -1,7 +1,7 @@
 import React from "react";
 import "../App.css";
 import { useState, useEffect } from "react";
-import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
+import { Input, InputGroup, InputRightElement, Button, useToast } from "@chakra-ui/react";
 // Import api
 import alchemy from "../apis/alchemyapi";
 // Import API tools
@@ -14,7 +14,7 @@ export default function Header() {
     "Collection Contact Address"
   );
   const [contractAddress, setContractAddress] = useState("");
-
+  const toast = useToast();
   const handleChange = (e) => {
     // Step 3: Update state when input value changes
     setInputValue(e.target.value);
@@ -25,19 +25,35 @@ export default function Header() {
       // Input validation
       const ethereumAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/; //Etherium address regex
       if(!ethereumAddressRegex.test(inputValue)) {
-        alert("Invalid address");
+        toast({
+          title: 'Input a valid Contact Address',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
         return;
       }
       // Collect the contract address
       setContractAddress(inputValue);
       setInputValue(""); // Clear any previous input
+      toast({
+        title: 'Success!',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
       setButtonState("Search");
       setPlaceholderState("NFT ID Number");
     } else if (buttonState === "Search") {
       // Input validation
       const nftIdRegex = /^[0-9]+$/; //NFT ID regex
       if(!nftIdRegex.test(inputValue)) {
-        alert("Invalid NFT ID");
+        toast({
+          title: 'Input a valid NFT ID Number',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
         return;
       }
       // Collect the NFT ID number
