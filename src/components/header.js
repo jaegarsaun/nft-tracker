@@ -8,11 +8,6 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-// Import api
-import alchemy from "../apis/alchemyapi";
-
-// Import API tools
-import { fromHex } from "alchemy-sdk";
 
 export default function Header() {
   // State to store input value
@@ -37,6 +32,7 @@ export default function Header() {
       if (!ethereumAddressRegex.test(inputValue)) {
         // If the input fails the etherium address regex test
         //Display error toast
+        // !!!!! Add animation to input field later on
         toast({
           title: "Input a valid Contact Address",
           status: "error",
@@ -49,6 +45,7 @@ export default function Header() {
       setContractAddress(inputValue); // Set the contract address state
       setInputValue(""); // Clear any previous input
       // Display success toast so user knows the input was valid
+      // !!!!! Add animation to input field later on
       toast({
         title: "Success!",
         status: "success",
@@ -64,6 +61,7 @@ export default function Header() {
       if (!nftIdRegex.test(inputValue)) {
         // If the input fails the NFT ID regex test
         // Display error toast so user knows the input was invalid
+        // !!!!! Add animation to input field later on
         toast({
           title: "Input a valid NFT ID Number",
           status: "error",
@@ -75,7 +73,7 @@ export default function Header() {
       // Code to be ran if the test passed
       // Collect the NFT ID number
       const nftId = parseInt(inputValue); // Parse the input value to an integer so it is usable in the API call
-
+      // Options to use in the API call
       const options = {
         method: "GET",
         headers: {
@@ -83,9 +81,9 @@ export default function Header() {
           "X-API-KEY": process.env.REACT_APP_OPENSEA_API,
         },
       };
-
+      // URL to use in the API call
       const url = `https://api.opensea.io/v2/chain/ethereum/contract/${contractAddress}/nfts/${nftId}`;
-
+      // API call
       fetch(url, options)
         .then((response) => response.json())
         .then((response) =>{
