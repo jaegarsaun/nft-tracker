@@ -9,6 +9,8 @@
     --light: #EDF2F4;
     --brightred: #EF233C;
     --darkred: #D90429;
+    --border: rgba(18, 18, 18, 0.12);
+    --light-background: #F7F7FF;
 }
 
 
@@ -20,13 +22,17 @@ h1{
     padding: 0;
     font-weight: 600;
 }
-p{
+.subheader{
     font-size: 1.25rem;
     color: var(--medium);
     text-align: center;
     margin: 0;
     padding: 0;
     font-weight: 300;
+}
+.bolded{
+    font-weight: 600;
+    color: black;
 }
 .header{
     height: 70vh;
@@ -43,4 +49,37 @@ p{
 .spacer{
     /* margin top bottom */
     margin: 2rem 0;
+}
+
+.nft-details{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 15vw;
+    padding: 1rem;
+    width: 100%;
+}
+.nft-details-p{
+    font-size: 1.25rem;
+}
+.nft-soft-details{
+    display: flex;
+    align-items: center;
+    background-color: var(--light-background);
+    width: 100%;
+    padding: inherit;
+    border: 1px solid var(--border);
+    border-radius: 7.5px;
+}
+.container{
+    height: 100%;
+    padding: 1rem;
+    padding: 0 1rem;
+}
+.sub-cont{
+    text-align: left;
+    padding: 0;
+}
+img{
+    width: 15vw;
 }

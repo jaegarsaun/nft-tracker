@@ -8,8 +8,9 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+// 0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D tester contract address
 
-export default function Header() {
+export default function Header({ handleApiResponse }) {
   // State to store input value
   const [inputValue, setInputValue] = useState("");
   const [buttonState, setButtonState] = useState("Next");
@@ -88,14 +89,15 @@ export default function Header() {
         .then((response) => response.json())
         .then((response) =>{
           // If the API call was successful let the user know by using a Chakra UI toast
+          handleApiResponse(response); // Send the response to the handleApiResponse function in App.js
           toast({
             title: "Success!",
             status: "success",
             duration: 9000,
             isClosable: true,
           });
-          // Console log response. Later I will use this to display on the page
-          console.log(response);
+
+          
 
         })
         .catch((err) => {
@@ -124,7 +126,7 @@ export default function Header() {
       <h1>
         From Pixels to Profits <br></br>Tracking NFTs Through Time.
       </h1>
-      <p className="spacer">
+      <p className="subheader spacer">
         Join us on a journey through time and technology, where pixels transform
         into profits, and where NFT history is both documented and made.
       </p>
